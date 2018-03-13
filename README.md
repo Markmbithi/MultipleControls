@@ -164,6 +164,9 @@ They will not be included in the production build so you can use them for things
 ## Available Scripts
 
 In the project directory, you can run:
+### `npm install`
+
+Instals all the project dependencies as defined in the package.json depencies list for use and running the project
 
 ### `npm start`
 
