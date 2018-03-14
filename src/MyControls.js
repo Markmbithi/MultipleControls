@@ -25,11 +25,12 @@ export class Clock extends React.Component
   
   render() {
     return(
-      <div>{this.state.date}</div>
+      this.state.date
     );
   }
 }
 
+// Toggle between login and logout button. Shows the functionality of changing a state between two items only
 export class LoginControl extends React.Component {
   constructor(props) {
     super(props);
@@ -100,14 +101,14 @@ export class DisplayArray extends React.Component {
 
   constructor(props) {
     super(props);
-    
+    this.state={numbers:[2,3,4,5,6]};
   }
 
   render() {
-      const numbers=[2,3,4,5,6];
+      //const numbers=[2,3,4,5,6];
       
-      const listitems=numbers.map((number)=>
-         <ListItem number={number}/>
+      const listitems=this.state.numbers.map((number,index)=>
+         <ListItem key={index} number={number}/>
         );
     return (
       <div>
@@ -119,5 +120,103 @@ export class DisplayArray extends React.Component {
 
 function ListItem(props)
 {
-    return (<li>{props.number}</li>);
+    return (<li key={props.id}>{props.number}</li>);
+}
+
+// Display array of objects in a list using an element ListUsers
+export class DisplayObjectArray extends React.Component {
+
+  constructor(props) {
+    super(props);
+    
+  }
+
+  render() {
+      const users=[{id:1, firstname:"Mark", lastname:"Mbithi"},{id:2, firstname:"John", lastname:"Doe"}];
+      
+      const userslist=users.map((user)=>
+         <ListUsers key={user.id} user={user}/>
+        );
+    return (
+      <div>
+        {userslist}
+      </div>
+    );
+  }
+}
+
+function ListUsers(props)
+{
+    return (<li>{props.user.firstname} {props.user.lastname}</li>);
+}
+            
+export class UserForm extends React.Component 
+{
+      constructor(props)
+      {
+         super(props);
+         
+         this.state = {name: '', essay:'',favoritefruit:'coconut'};
+         this.handleChange = this.handleChange.bind(this);
+         this.handleSubmit = this.handleSubmit.bind(this);
+      }
+
+      handleChange(event) {
+          if(event.target.name==="name") //Get's where the change is coming from and updating relevant states
+          {
+             this.setState({name: event.target.value});
+          }
+          
+          else if(event.target.name==="essay") // Handles change from essay textarea component
+          {
+             this.setState({essay: event.target.value});
+          }
+          else if(event.target.name==="favoritefruit") // Handles change from select favoritefruit component
+          {
+             this.setState({favoritefruit: event.target.value});
+          }
+          else if(event.target.name==="myfiles") // Handles change from file component
+          {
+             this.setState({favoritefruit: event.target.value});
+          }
+      }
+
+      handleSubmit(event) {
+        alert('A name was submitted: ' + this.state.name);
+        event.preventDefault();
+      }
+
+      render() {
+        return (
+            <div>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Name:
+              <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+            </label>
+            <label>
+            Essay:
+            <textarea name="essay" value={this.state.essay} onChange={this.handleChange} />
+            </label>
+            <label>
+            Who is your prefered mobile provider
+            <select name="favoritefruit" value={this.state.favoritefruit} onChange={this.handleChange}>
+              <option value="Select favorite fruit">Select favorite fruit</option>
+              <option value="grapefruit">Grapefruit</option>
+              <option value="lime">Lime</option>
+              <option value="coconut">Coconut</option>
+              <option value="mango">Mango</option>
+            </select>
+            </label>
+            <input id="uploadInput" type="file" name="myFiles" onChange={this.handleChange} multiple/>
+            <input type="submit" value="Submit" />
+          </form>
+            <div>
+            <p>Name: {this.state.name}</p>
+            <p>Essay: {this.state.essay}</p>
+            <p>Favorite Fruit: {this.state.favoritefruit}</p>
+            </div>
+            </div>
+        );
+      }
 }
